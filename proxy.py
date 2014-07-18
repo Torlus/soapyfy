@@ -5,13 +5,26 @@ from suds.client import Client
 url = 'file://' + os.getcwd() + '/v4.wsdl'
 
 client = Client(url)
+
+for ctype in client.wsdl.schema.children:
+  print(ctype.name)
+  for seq in ctype.root.children:
+    for el in seq.children:
+      print(el)
+      print(el.__dict__)
+
 for service in client.wsdl.services:
   for port in service.ports:
-    print(port.binding.operations)
+    #print(port.binding.operations)
     for operation in port.binding.operations:
       print(operation)
       for part in port.binding.operations[operation].soap.input.body.parts:
-        print('  ' + part.name + ':' + part.type[0])
+        print('< ' + part.name + ':' + part.type[0])
+      for part in port.binding.operations[operation].soap.output.body.parts:
+        print('> ' + part.name + ':' + part.type[0])
+
+#print(client.factory.resolver.schema.__dict__)
+#print(client.wsdl.schema.__dict__)
 
 #print(dir(client.items))
 #print("=================")
