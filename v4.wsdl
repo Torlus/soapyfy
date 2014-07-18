@@ -1,0 +1,891 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://v4.ws.vads.lyra.com/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="StandardWS" targetNamespace="http://v4.ws.vads.lyra.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://v4.ws.vads.lyra.com/" targetNamespace="http://v4.ws.vads.lyra.com/" version="1.0">
+
+  <xs:complexType name="standardResponse">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element minOccurs="0" name="extendedErrorCode" type="xs:string"/>
+      <xs:element name="transactionStatus" type="xs:int"/>
+      <xs:element minOccurs="0" name="transactionStatusLabel" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="refundByCardRequest">
+    <xs:sequence>
+      <xs:element name="siteId" type="xs:string"/>
+      <xs:element name="cardNumber" type="xs:string"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="currency" type="xs:int"/>
+      <xs:element name="ctxMode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionInfo">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element minOccurs="0" name="extendedErrorCode" type="xs:string"/>
+      <xs:element name="transactionStatus" type="xs:int"/>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element minOccurs="0" name="transactionStatusLabel" type="xs:string"/>
+      <xs:element minOccurs="0" name="paymentGeneralInfo" type="tns:transactionPaymentGeneralInfo"/>
+      <xs:element minOccurs="0" name="cardInfo" type="tns:transactionCardInfo"/>
+      <xs:element minOccurs="0" name="threeDSInfo" type="tns:transactionThreeDSInfo"/>
+      <xs:element minOccurs="0" name="authorizationInfo" type="tns:transactionAuthorizationInfo"/>
+      <xs:element minOccurs="0" name="markInfo" type="tns:transactionMarkInfo"/>
+      <xs:element minOccurs="0" name="warrantyDetailsInfo" type="tns:transactionWarrantyDetailsInfo"/>
+      <xs:element minOccurs="0" name="captureInfo" type="tns:transactionCaptureInfo"/>
+      <xs:element minOccurs="0" name="customerInfo" type="tns:transactionCustomerInfo"/>
+      <xs:element minOccurs="0" name="shippingInfo" type="tns:transactionShippingInfo"/>
+      <xs:element minOccurs="0" name="subscriptionInfo" type="tns:transactionSubscriptionInfo"/>
+      <xs:element minOccurs="0" name="extraInfo" type="tns:transactionExtraInfo"/>
+      <xs:element minOccurs="0" name="paymentOptionInfo" type="tns:transactionPaymentOptionInfo"/>
+      <xs:element minOccurs="0" name="boletoInfo" type="tns:transactionBoletoExtraInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionPaymentGeneralInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="siteId" type="xs:string"/>
+      <xs:element minOccurs="0" name="paymentSource" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderId" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo2" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo3" type="xs:string"/>
+      <xs:element minOccurs="0" name="transmissionDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="transactionId" type="xs:string"/>
+      <xs:element minOccurs="0" name="sequenceNumber" type="xs:int"/>
+      <xs:element minOccurs="0" name="amount" type="xs:long"/>
+      <xs:element minOccurs="0" name="initialAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="currency" type="xs:int"/>
+      <xs:element minOccurs="0" name="effectiveAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="effectiveCurrency" type="xs:int"/>
+      <xs:element minOccurs="0" name="presentationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="type" type="xs:int"/>
+      <xs:element minOccurs="0" name="multiplePayment" type="xs:int"/>
+      <xs:element minOccurs="0" name="effectiveCreationDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="extTransId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionCardInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cardNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardNetwork" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardBrand" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardCountry" type="xs:long"/>
+      <xs:element minOccurs="0" name="cardProductCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardBankCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="expiryMonth" type="xs:int"/>
+      <xs:element minOccurs="0" name="expiryYear" type="xs:int"/>
+      <xs:element minOccurs="0" name="contractNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardIdent" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionThreeDSInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="threeDSTransactionCondition" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSEnrolled" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSStatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSEci" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSXid" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSCavvAlgorithm" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSCavv" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSSignValid" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSBrand" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionAuthorizationInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="authMode" type="xs:string"/>
+      <xs:element minOccurs="0" name="authAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="authCurrency" type="xs:int"/>
+      <xs:element minOccurs="0" name="authDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="authNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="authResult" type="xs:int"/>
+      <xs:element minOccurs="0" name="authCVV2_CVC2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionMarkInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="markAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="markCurrency" type="xs:int"/>
+      <xs:element minOccurs="0" name="markDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="markNb" type="xs:string"/>
+      <xs:element minOccurs="0" name="markResult" type="xs:int"/>
+      <xs:element minOccurs="0" name="markCVV2_CVC2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionWarrantyDetailsInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="paymentError" type="xs:int"/>
+      <xs:element minOccurs="0" name="warrantyResult" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="localControl" nillable="true" type="tns:localControl"/>
+      <xs:element minOccurs="0" name="litige" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="localControl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element name="result" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionCaptureInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="captureDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="captureNumber" type="xs:int"/>
+      <xs:element minOccurs="0" name="rapprochementStatut" type="xs:int"/>
+      <xs:element minOccurs="0" name="refundAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="refundCurrency" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionCustomerInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="customerId" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerTitle" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerStatus" type="tns:custStatus"/>
+      <xs:element minOccurs="0" name="customerName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerFirstName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerLastName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerPhone" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerEmail" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerAddressNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerDistrict" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerZip" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerCity" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerCountry" type="xs:string"/>
+      <xs:element minOccurs="0" name="language" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerIP" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerCellPhone" type="xs:string"/>
+      <xs:element name="extInfo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="key" type="xs:string"/>
+                  <xs:element minOccurs="0" name="value" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionShippingInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="shippingCity" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingCountry" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingDeliveryCompanyName" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingName" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingPhone" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingSpeed" type="tns:deliverySpeed"/>
+      <xs:element minOccurs="0" name="shippingState" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStatus" type="tns:custStatus"/>
+      <xs:element minOccurs="0" name="shippingStreetNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStreet" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStreet2" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingDistrict" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingType" type="tns:deliveryType"/>
+      <xs:element minOccurs="0" name="shippingZipCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionSubscriptionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="subscriptionId" type="xs:string"/>
+      <xs:element minOccurs="0" name="effectDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="cancelDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="initialAmount" type="xs:long"/>
+      <xs:element minOccurs="0" name="subscriptionDescr" type="xs:string"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="devise" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionExtraInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ctxMode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionPaymentOptionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element minOccurs="0" name="nbOfOccurrence" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionBoletoExtraInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="url" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createPaymentInfo">
+    <xs:sequence>
+      <xs:element name="paymentGeneralInfo" type="tns:createPaymentGeneralInfo"/>
+      <xs:element name="cardInfo" type="tns:createCardInfo"/>
+      <xs:element minOccurs="0" name="subPaymentInfo" type="tns:createSubPaymentInfo"/>
+      <xs:element minOccurs="0" name="customerInfo" type="tns:createCustomerInfo"/>
+      <xs:element minOccurs="0" name="shippingInfo" type="tns:createShippingInfo"/>
+      <xs:element minOccurs="0" name="extraInfo" type="tns:createExtraInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createPaymentGeneralInfo">
+    <xs:sequence>
+      <xs:element name="siteId" type="xs:string"/>
+      <xs:element name="transmissionDate" type="xs:dateTime"/>
+      <xs:element name="transactionId" type="xs:string"/>
+      <xs:element name="paymentSource" type="xs:string"/>
+      <xs:element name="orderId" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo2" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo3" type="xs:string"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="currency" type="xs:int"/>
+      <xs:element minOccurs="0" name="presentationDate" type="xs:string"/>
+      <xs:element minOccurs="0" name="validationMode" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createCardInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cardNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardNetwork" type="xs:string"/>
+      <xs:element minOccurs="0" name="expiryMonth" type="xs:int"/>
+      <xs:element minOccurs="0" name="expiryYear" type="xs:int"/>
+      <xs:element minOccurs="0" name="cvv" type="xs:string"/>
+      <xs:element minOccurs="0" name="cardBirthDay" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="cardIdent" type="xs:string"/>
+      <xs:element minOccurs="0" name="contractNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="paymentOptionCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createSubPaymentInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="subPaymentType" type="xs:int"/>
+      <xs:element minOccurs="0" name="subReference" type="xs:string"/>
+      <xs:element minOccurs="0" name="subPaymentNumber" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createCustomerInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="customerId" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerTitle" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerStatus" type="tns:custStatus"/>
+      <xs:element minOccurs="0" name="customerName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerFirstName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerLastName" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerPhone" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerEmail" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerAddressNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerAddress" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerDistrict" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerZip" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerCity" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerState" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerCountry" type="xs:string"/>
+      <xs:element minOccurs="0" name="language" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerIP" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerSendEmail" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="customerCellPhone" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerSourceInfo" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="extInfo" type="tns:extInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="key" type="xs:string"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createShippingInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="shippingCity" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingCountry" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingDeliveryCompanyName" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingName" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingPhone" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingSpeed" type="tns:deliverySpeed"/>
+      <xs:element minOccurs="0" name="shippingState" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStatus" type="tns:custStatus"/>
+      <xs:element minOccurs="0" name="shippingStreetNumber" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStreet" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingStreet2" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingDistrict" type="xs:string"/>
+      <xs:element minOccurs="0" name="shippingType" type="tns:deliveryType"/>
+      <xs:element minOccurs="0" name="shippingZipCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createExtraInfo">
+    <xs:sequence>
+      <xs:element name="ctxMode" type="xs:string"/>
+      <xs:element minOccurs="0" name="browserUserAgent" type="xs:string"/>
+      <xs:element minOccurs="0" name="browserAccept" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createWithThreeDSResponse">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element minOccurs="0" name="extendedErrorCode" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:long"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element minOccurs="0" name="veResPAReqInfo" type="tns:veResPAReqInfo"/>
+      <xs:element minOccurs="0" name="transactionInfo" type="tns:transactionInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="veResPAReqInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractThreeDSecureResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="threeDSAcctId" type="xs:string"/>
+          <xs:element minOccurs="0" name="threeDSAcsUrl" type="xs:string"/>
+          <xs:element minOccurs="0" name="threeDSBrand" type="xs:string"/>
+          <xs:element minOccurs="0" name="threeDSEncodedPareq" type="xs:string"/>
+          <xs:element minOccurs="0" name="threeDSEnrolled" type="xs:string"/>
+          <xs:element minOccurs="0" name="threeDSRequestId" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="abstractThreeDSecureResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="errorCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="errorDetail" type="xs:string"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="searchTxInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="orderId" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionInfoList">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:int"/>
+      <xs:element minOccurs="0" name="extendedErrorCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="siteId" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderId" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo2" type="xs:string"/>
+      <xs:element minOccurs="0" name="orderInfo3" type="xs:string"/>
+      <xs:element minOccurs="0" name="ctxMode" type="xs:string"/>
+      <xs:element minOccurs="0" name="timestamp" type="xs:long"/>
+      <xs:element minOccurs="0" name="signature" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="transactionDescInfo" nillable="true" type="tns:transactionDescInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transactionDescInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="transmissionDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="transactionId" type="xs:string"/>
+      <xs:element name="transactionStatus" type="xs:int"/>
+      <xs:element minOccurs="0" name="sequenceNumber" type="xs:int"/>
+      <xs:element minOccurs="0" name="amount" type="xs:long"/>
+      <xs:element minOccurs="0" name="currency" type="xs:int"/>
+      <xs:element minOccurs="0" name="presentationDate" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paymentCreationInfo">
+    <xs:sequence>
+      <xs:element name="paymentGeneralInfo" type="tns:createPaymentGeneralInfo"/>
+      <xs:element name="cardInfo" type="tns:createCardInfo"/>
+      <xs:element minOccurs="0" name="threeDsResult" type="tns:threeDsResult"/>
+      <xs:element minOccurs="0" name="subPaymentInfo" type="tns:createSubPaymentInfo"/>
+      <xs:element minOccurs="0" name="customerInfo" type="tns:createCustomerInfo"/>
+      <xs:element minOccurs="0" name="shippingInfo" type="tns:createShippingInfo"/>
+      <xs:element minOccurs="0" name="extraInfo" type="tns:createExtraInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="threeDsResult">
+    <xs:sequence>
+      <xs:element name="threeDSBrand" type="xs:string"/>
+      <xs:element name="threeDSEnrolled" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSStatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSEci" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSXid" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSCavv" type="xs:string"/>
+      <xs:element minOccurs="0" name="threeDSCavvAlgorithm" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="custStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PRIVATE"/>
+      <xs:enumeration value="COMPANY"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="deliverySpeed">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="STANDARD"/>
+      <xs:enumeration value="EXPRESS"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="deliveryType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RECLAIM_IN_SHOP"/>
+      <xs:enumeration value="RELAY_POINT"/>
+      <xs:enumeration value="RECLAIM_IN_STATION"/>
+      <xs:enumeration value="PACKAGE_DELIVERY_COMPANY"/>
+      <xs:enumeration value="ETICKET"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getInfoResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refundByCard">
+    <wsdl:part name="refundByCardRequest" type="tns:refundByCardRequest">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifyResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="force">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="authNumber" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="authDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTransactionsResponse">
+    <wsdl:part name="return" type="tns:transactionInfoList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateResponse">
+    <wsdl:part name="return" type="tns:standardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finalizeWithThreeDS">
+    <wsdl:part name="threeDSrequestId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="pares" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refund">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="newTransactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="amount" type="xsd:long">
+    </wsdl:part>
+    <wsdl:part name="currency" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="presentationDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="validationMode" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="duplicateResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelResponse">
+    <wsdl:part name="return" type="tns:standardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="create">
+    <wsdl:part name="createInfo" type="tns:paymentCreationInfo">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfo">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="forceResponse">
+    <wsdl:part name="return" type="tns:standardResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validate">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modify">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="amount" type="xsd:long">
+    </wsdl:part>
+    <wsdl:part name="currency" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="presentationDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="validate" type="xsd:boolean">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findTransactions">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="searchInfo" type="tns:searchTxInfo">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refundByCardResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancel">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="duplicate">
+    <wsdl:part name="siteId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="transmissionDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="transactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="sequenceNumber" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="ctxMode" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="orderId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="orderInfo" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="orderInfo2" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="orderInfo3" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="amount" type="xsd:long">
+    </wsdl:part>
+    <wsdl:part name="currency" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="newTransactionId" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="presentationDate" type="xsd:dateTime">
+    </wsdl:part>
+    <wsdl:part name="validationMode" type="xsd:int">
+    </wsdl:part>
+    <wsdl:part name="comment" type="xsd:string">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refundResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finalizeWithThreeDSResponse">
+    <wsdl:part name="return" type="tns:transactionInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createWithThreeDSResponse">
+    <wsdl:part name="return" type="tns:createWithThreeDSResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createWithThreeDS">
+    <wsdl:part name="createInfo" type="tns:createPaymentInfo">
+    </wsdl:part>
+    <wsdl:part name="wsSignature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Standard">
+    <wsdl:operation name="cancel">
+      <wsdl:input message="tns:cancel" name="cancel">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelResponse" name="cancelResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refundByCard">
+      <wsdl:input message="tns:refundByCard" name="refundByCard">
+    </wsdl:input>
+      <wsdl:output message="tns:refundByCardResponse" name="refundByCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfo">
+      <wsdl:input message="tns:getInfo" name="getInfo">
+    </wsdl:input>
+      <wsdl:output message="tns:getInfoResponse" name="getInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="finalizeWithThreeDS">
+      <wsdl:input message="tns:finalizeWithThreeDS" name="finalizeWithThreeDS">
+    </wsdl:input>
+      <wsdl:output message="tns:finalizeWithThreeDSResponse" name="finalizeWithThreeDSResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="force">
+      <wsdl:input message="tns:force" name="force">
+    </wsdl:input>
+      <wsdl:output message="tns:forceResponse" name="forceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWithThreeDS">
+      <wsdl:input message="tns:createWithThreeDS" name="createWithThreeDS">
+    </wsdl:input>
+      <wsdl:output message="tns:createWithThreeDSResponse" name="createWithThreeDSResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refund">
+      <wsdl:input message="tns:refund" name="refund">
+    </wsdl:input>
+      <wsdl:output message="tns:refundResponse" name="refundResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="duplicate">
+      <wsdl:input message="tns:duplicate" name="duplicate">
+    </wsdl:input>
+      <wsdl:output message="tns:duplicateResponse" name="duplicateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTransactions">
+      <wsdl:input message="tns:findTransactions" name="findTransactions">
+    </wsdl:input>
+      <wsdl:output message="tns:findTransactionsResponse" name="findTransactionsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modify">
+      <wsdl:input message="tns:modify" name="modify">
+    </wsdl:input>
+      <wsdl:output message="tns:modifyResponse" name="modifyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <wsdl:input message="tns:create" name="create">
+    </wsdl:input>
+      <wsdl:output message="tns:createResponse" name="createResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validate">
+      <wsdl:input message="tns:validate" name="validate">
+    </wsdl:input>
+      <wsdl:output message="tns:validateResponse" name="validateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StandardWSSoapBinding" type="tns:Standard">
+    <soap12:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="cancel">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="cancel">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refundByCard">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="refundByCard">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="refundByCardResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="finalizeWithThreeDS">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="finalizeWithThreeDS">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="finalizeWithThreeDSResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfo">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getInfo">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInfoResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createWithThreeDS">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="createWithThreeDS">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createWithThreeDSResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="force">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="force">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="forceResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findTransactions">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="findTransactions">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findTransactionsResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="duplicate">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="duplicate">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="duplicateResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="refund">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="refund">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="refundResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modify">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="modify">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modifyResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="create">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validate">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="validate">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateResponse">
+        <soap12:body namespace="http://v4.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StandardWS">
+    <wsdl:port binding="tns:StandardWSSoapBinding" name="StandardBeanPort">
+      <soap12:address location="https://payzen2.lyra-labs.fr/vads-ws/v4"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
