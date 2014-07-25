@@ -1,46 +1,95 @@
 import os
+import sys
+import json
 from suds.client import Client
 
 #url = 'https://payzen.lyra-labs.fr/vads-ws/v4?wsdl'
-url = 'file://' + os.getcwd() + '/v4.wsdl'
+#url = 'file://' + os.getcwd() + '/v4.wsdl'
+url = 'file://' + os.getcwd() + '/' + sys.argv[1]
 
 client = Client(url)
 
-for ctype in client.wsdl.schema.children:
-  print(ctype.name)
-  for seq in ctype.root.children:
-    for el in seq.children:
-      print(el)
-      print(el.__dict__)
+def xsd_to_json_type(name):
+  mapping = {
+    'string': 'string',
+    'int': 'integer',
+    'long': 'integer',
+    'boolean': 'boolean',
+    'dateTime': 'int',
+    'null': None
+  }
+  return mapping[name]
 
-for service in client.wsdl.services:
-  for port in service.ports:
-    #print(port.binding.operations)
-    for operation in port.binding.operations:
-      print(operation)
-      for part in port.binding.operations[operation].soap.input.body.parts:
-        print('< ' + part.name + ':' + part.type[0])
-      for part in port.binding.operations[operation].soap.output.body.parts:
-        print('> ' + part.name + ':' + part.type[0])
+def parse_xsd_complex_type(document, element):
+  document['title'] = element.name
+  document['type'] = 'object'
+  document['description'] = 'ComplexType ' + element.name + ' generated from XSD'
+  p = document['properties'] = {}
+  r = document['required'] = [];
 
-#print(client.factory.resolver.schema.__dict__)
-#print(client.wsdl.schema.__dict__)
+  for seqel in element.children():
+    e = seqel[0]
+    q = p[e.name] = {}
 
-#print(dir(client.items))
-#print("=================")
-#print(dir(client))
-#print("=================")
-#print(dir(client.service))
-#print("=================")
-#print(dir(client.service[0]))
+    if e.min is None:
+      r.append(e.name)
+    elif e.max is not None:
+      q = p[e.name] = { 'type': 'array', 'items': {} }
+      q = q['items']
 
-#print(client.service[0]._MethodSelector__methods.keys())
-#print(list(client.service[0]._MethodSelector__methods.keys()))
-#print(client.service[0]._MethodSelector__methods['create'].soap.input)
-#print(client.service[0]._MethodSelector__methods['create'].soap.input.body)
-#print(client.service[0]._MethodSelector__methods['create'].soap.input.body.parts)
-#print("=================")
-#print(client.service[0]._MethodSelector__methods['create'].soap.input.body.parts[0])
-#print("=================")
-#for i in (client.service[0]._MethodSelector__methods['create'].soap.input.body.parts):
-#  print(i.name + ',' + i.type[0])
+    if e.type is not None:
+      try:
+        baseType = xsd_to_json_type(e.type[0])
+        q['type'] = baseType
+        q['description'] = e.name + ': XSD type ' + e.type[0]
+      except KeyError:
+        q['$ref'] = '#/root/' + e.type[0]
+    else:
+      print('### embedded-type:' + e.root.name)
+      parse_xsd_complex_type(q, q)
+
+def parse_xsd_simple_type(document, element):
+  document['title'] = element.name
+  document['description'] = 'SimpleType ' + element.name + ' generated from XSD'
+  pass
+
+
+def parse_xsd_schema(schema):
+  elements = { 'title': 'root' }
+  for schel in client.wsdl.schema.children:
+    document = {}
+    element_name = schel.name
+    element_type = schel.root.name
+    if element_type == "complexType":
+      parse_xsd_complex_type(document, schel)
+    elif element_type == "simpleType":
+      parse_xsd_simple_type(document, schel)
+    else:
+      raise Exception('Unsupported Schema definition: ' + element_type)
+    elements[element_name] = document
+  return elements
+
+
+
+#    for seq in schel.root.children:
+#      #print(seq)
+#      for el in seq.children:
+#        #print(el)
+#        #print(el.__dict__)
+#        pass
+
+def parse_operations(services):
+  for service in services:
+    for port in service.ports:
+      #print(port.binding.operations)
+      for operation in port.binding.operations:
+        print(operation)
+        for part in port.binding.operations[operation].soap.input.body.parts:
+          print('< ' + part.name + ':' + part.type[0])
+        for part in port.binding.operations[operation].soap.output.body.parts:
+          print('> ' + part.name + ':' + part.type[0])
+
+
+#parse_operations(client)
+schema = parse_xsd_schema(client.wsdl.schema)
+print(json.dumps(schema, sort_keys=False, indent=2))

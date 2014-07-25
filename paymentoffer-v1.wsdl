@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://v1.paymentoffer.ws.vads.lyra.com/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="PaymentOfferWS" targetNamespace="http://v1.paymentoffer.ws.vads.lyra.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://v1.paymentoffer.ws.vads.lyra.com/" targetNamespace="http://v1.paymentoffer.ws.vads.lyra.com/" version="1.0">
+
+  <xs:complexType name="paymentOfferEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractPaymentOfferInfo">
+        <xs:sequence>
+          <xs:element name="offerId" type="xs:string"/>
+          <xs:element minOccurs="0" name="recipient" type="xs:string"/>
+          <xs:element minOccurs="0" name="paymentURL" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="abstractPaymentOfferInfo">
+    <xs:sequence>
+      <xs:element name="shopId" type="xs:string"/>
+      <xs:element name="ctxMode" type="xs:string"/>
+      <xs:element minOccurs="0" name="reference" type="xs:string"/>
+      <xs:element name="subject" type="xs:string"/>
+      <xs:element name="message" type="xs:string"/>
+      <xs:element default="MAIL" name="device" type="xs:string"/>
+      <xs:element name="validity" type="xs:dateTime"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element default="0" name="validationMode" type="xs:int"/>
+      <xs:element name="currency" type="xs:int"/>
+      <xs:element name="locale" type="xs:string"/>
+      <xs:element name="sendMail" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paymentOfferResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="offerEntities" nillable="true" type="tns:paymentOfferEntity"/>
+      <xs:element minOccurs="0" name="reponseCode" type="xs:string"/>
+      <xs:element minOccurs="0" name="returnMessage" type="xs:string"/>
+      <xs:element minOccurs="0" name="extendedCode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paymentOfferInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractPaymentOfferInfo">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="recipients" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="create">
+    <wsdl:part name="info" type="tns:paymentOfferInfo">
+    </wsdl:part>
+    <wsdl:part name="signature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createResponse">
+    <wsdl:part name="return" type="tns:paymentOfferResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateResponse">
+    <wsdl:part name="return" type="tns:paymentOfferResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="update">
+    <wsdl:part name="entities" type="tns:paymentOfferEntity">
+    </wsdl:part>
+    <wsdl:part name="signature" type="xsd:string">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PaymentOffer">
+    <wsdl:operation name="update">
+      <wsdl:input message="tns:update" name="update">
+    </wsdl:input>
+      <wsdl:output message="tns:updateResponse" name="updateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <wsdl:input message="tns:create" name="create">
+    </wsdl:input>
+      <wsdl:output message="tns:createResponse" name="createResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PaymentOfferWSSoapBinding" type="tns:PaymentOffer">
+    <soap12:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="update">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="update">
+        <soap12:body namespace="http://v1.paymentoffer.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateResponse">
+        <soap12:body namespace="http://v1.paymentoffer.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="create">
+      <soap12:operation soapAction="" style="rpc"/>
+      <wsdl:input name="create">
+        <soap12:body namespace="http://v1.paymentoffer.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createResponse">
+        <soap12:body namespace="http://v1.paymentoffer.ws.vads.lyra.com/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PaymentOfferWS">
+    <wsdl:port binding="tns:PaymentOfferWSSoapBinding" name="PaymentOfferBeanPort">
+      <soap12:address location="https://secure.payzen.eu/vads-ws/paymentoffer-v1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
