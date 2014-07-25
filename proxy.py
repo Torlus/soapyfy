@@ -15,7 +15,7 @@ def xsd_to_json_type(name):
     'int': 'integer',
     'long': 'integer',
     'boolean': 'boolean',
-    'dateTime': 'int',
+    'dateTime': 'integer',
     'null': None
   }
   return mapping[name]
@@ -26,13 +26,15 @@ def parse_xsd_complex_type(document, element):
   document['type'] = 'object'
   document['description'] = 'ComplexType ' + element.name + ' generated from XSD'
   p = document['properties'] = {}
-  r = document['required'] = [];
+  r = None
 
   for seqel in element.children():
     e = seqel[0]
     q = p[e.name] = {}
 
     if e.min is None:
+      if r is None:
+        r = document['required'] = []
       r.append(e.name)
     elif e.max is not None:
       q = p[e.name] = { 'type': 'array', 'items': {} }
@@ -44,10 +46,11 @@ def parse_xsd_complex_type(document, element):
         q['type'] = baseType
         q['description'] = e.name + ': XSD type ' + e.type[0]
       except KeyError:
-        q['$ref'] = '#/root/' + e.type[0]
+        q['$ref'] = '#/properties/' + e.type[0]
     else:
       # print('### embedded-type:' + e.root.name)
       parse_xsd_complex_type(q, e)
+
 
 def parse_xsd_simple_type(document, element):
   # document['title'] = element.name
@@ -56,11 +59,12 @@ def parse_xsd_simple_type(document, element):
 
 
 def parse_xsd_schema(schema):
-  elements = {}
+  root = { 'id':'#root' }
+  elements = root['properties'] = {}
   for schel in client.wsdl.schema.children:
-    document = {}
     element_name = schel.name
     element_type = schel.root.name
+    document = { 'id': '#' + element_name }
     if element_type == "complexType":
       parse_xsd_complex_type(document, schel)
     elif element_type == "simpleType":
@@ -68,12 +72,12 @@ def parse_xsd_schema(schema):
     else:
       raise Exception('Unsupported Schema definition: ' + element_type)
     elements[element_name] = document
-  return elements
+  return root
 
 def parse_operations(services):
   for service in services:
     for port in service.ports:
-      #print(port.binding.operations)
+      print(port.binding.operations)
       for operation in port.binding.operations:
         print(operation)
         for part in port.binding.operations[operation].soap.input.body.parts:
