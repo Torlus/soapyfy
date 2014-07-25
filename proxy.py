@@ -21,6 +21,7 @@ def xsd_to_json_type(name):
   return mapping[name]
 
 def parse_xsd_complex_type(document, element):
+  document['$schema'] = 'http://json-schema.org/draft-04/schema#'
   document['title'] = element.name
   document['type'] = 'object'
   document['description'] = 'ComplexType ' + element.name + ' generated from XSD'
@@ -49,13 +50,13 @@ def parse_xsd_complex_type(document, element):
       parse_xsd_complex_type(q, e)
 
 def parse_xsd_simple_type(document, element):
-  document['title'] = element.name
-  document['description'] = 'SimpleType ' + element.name + ' generated from XSD'
+  # document['title'] = element.name
+  # document['description'] = 'SimpleType ' + element.name + ' generated from XSD'
   pass
 
 
 def parse_xsd_schema(schema):
-  elements = { 'title': 'root' }
+  elements = {}
   for schel in client.wsdl.schema.children:
     document = {}
     element_name = schel.name
@@ -68,15 +69,6 @@ def parse_xsd_schema(schema):
       raise Exception('Unsupported Schema definition: ' + element_type)
     elements[element_name] = document
   return elements
-
-
-
-#    for seq in schel.root.children:
-#      #print(seq)
-#      for el in seq.children:
-#        #print(el)
-#        #print(el.__dict__)
-#        pass
 
 def parse_operations(services):
   for service in services:
