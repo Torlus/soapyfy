@@ -45,8 +45,8 @@ def parse_xsd_complex_type(document, element):
       except KeyError:
         q['$ref'] = '#/root/' + e.type[0]
     else:
-      print('### embedded-type:' + e.root.name)
-      parse_xsd_complex_type(q, q)
+      # print('### embedded-type:' + e.root.name)
+      parse_xsd_complex_type(q, e)
 
 def parse_xsd_simple_type(document, element):
   document['title'] = element.name
