@@ -36,8 +36,8 @@ def parse_xsd_complex_type(document, element):
 
     if e.type is not None:
       try:
-        baseType = xsd_to_json_type(e.type[0])
-        q['type'] = baseType
+        base_type = xsd_to_json_type(e.type[0])
+        q['type'] = base_type
         q['description'] = e.name + ': XSD type ' + e.type[0]
       except KeyError:
         q['$ref'] = '#/properties/' + e.type[0]
