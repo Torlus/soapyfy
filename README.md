@@ -19,6 +19,8 @@ Because [JSON](http://en.wikipedia.org/wiki/JSON) is often preferred over
 
 # How
 
+(Well, this is what it should do, when it's done, let's say I'm experimenting Readme-Driven-Development)
+
 **soapyfy** is a simple Python script that runs a Web server acting as some kind of proxy.
 
 It provides a set of endpoints generated from the
