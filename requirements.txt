@@ -1,3 +1,6 @@
-Pygments==1.6
-json-spec==0.9.8
-suds-jurko==0.6
+json-spec (0.9.8)
+pip (1.5.4)
+Pygments (1.6)
+setuptools (2.2)
+suds-jurko (0.6)
+Werkzeug (0.9.6)

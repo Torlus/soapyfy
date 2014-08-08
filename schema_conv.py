@@ -14,6 +14,7 @@ def xsd_to_json_type(name):
   return mapping[name]
 
 def parse_xsd_complex_type(document, element):
+  global json_schema_version
   document['$schema'] = json_schema_version
   document['title'] = element.name
   document['description'] = 'ComplexType ' + element.name + ' generated from XSD'
