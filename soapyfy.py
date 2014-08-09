@@ -11,40 +11,25 @@ import services
 schema = {}
 endpoints = {}
 
-def view_services(request, services):
-  return Response(services)
+def view(request, element, path):
+  return Response(json.dumps(element, sort_keys=False, indent=2))
 
-def view_ports(request, ports):
-  return Response(ports)
-
-def browse_root(request):
-  path = list(filter((lambda x: len(x) > 0), re.split('/+', request.path)))
-  if len(path) == 0:
-    return view_services(request, list(endpoints))
+def browse(request, parent, path, index):
+  if len(path) == index:
+    return view(request, parent, path)
   else:
     try:
-      service = endpoints[path[0]]
+      children = parent[path[index]]
     except KeyError:
       return NotFound()
-    return browse_service(request, service, path[1:])
-
-def browse_service(request, service, path):
-  if len(path) == 0:
-    return view_ports(request, list(service))
-  else:
-    try:
-      port = service[path[0]]
-    except KeyError:
-      return NotFound()
-    return browse_port(request, port, path[1:])
-
-def browse_port(request, port, path):
-  return Response('operations=' + '|'.join(list(port)))
+    return browse(request, children, path, index + 1)
 
 @Request.application
 def application(request):
   if request.method == 'GET':
-    return browse_root(request)
+    #return browse_root(request)
+    path = list(filter((lambda x: len(x) > 0), re.split('/+', request.path)))
+    return browse(request, endpoints, path, 0)
   elif request.method == 'POST':
     return Response('post')
   else:
