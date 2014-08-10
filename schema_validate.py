@@ -3,7 +3,7 @@ import sys
 import json
 from suds.client import Client
 import schema_conv
-import services
+from jsonschema import validate
 
 if __name__ == "__main__":
   if len(sys.argv) == 2:
@@ -14,7 +14,8 @@ if __name__ == "__main__":
     client = Client(url)
     schema = schema_conv.parse_xsd_schema(client.wsdl)
     print(json.dumps(schema, sort_keys=False, indent=2))
-    endpoints = services.parse_services(client.wsdl)
-    print(json.dumps(endpoints, sort_keys=False, indent=2))
+    # print(schema)
+    # data = {'deliverySpeed':'b'}
+    # validate( data, schema )
   else:
     print('Usage: ' + sys.argv[0] + ' <wsdl path or url>')

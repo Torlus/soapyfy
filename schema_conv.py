@@ -14,7 +14,6 @@ def xsd_to_json_type(name):
   return mapping[name]
 
 def parse_xsd_complex_type(document, element):
-  global json_schema_version
   document['$schema'] = json_schema_version
   document['title'] = element.name
   document['description'] = 'ComplexType ' + element.name + ' generated from XSD'
@@ -67,10 +66,27 @@ def parse_xsd_simple_type(document, element):
   else:
     raise Exception('Unsupported Schema definition: ' + element.rawchilden[0].str())
 
-def parse_xsd_schema(schema):
+def parse_wsdl_message_parts(document, parts):
+  p = document['properties'] = {}
+  r = document['required'] = []
+  for part in parts:
+    part_name = part.name
+    r.append(part_name)
+    print(part)
+    q = p[part_name] = {}
+    try:
+      base_type = xsd_to_json_type(part.type[0])
+      q['type'] = base_type
+      q['description'] = part_name + ': XSD type ' + part.type[0]
+    except KeyError:
+      q['$ref'] = '#/properties/' + part.type[0]
+
+  return document
+
+def parse_xsd_schema(wsdl):
   root = { 'id':'#root' }
-  elements = root['properties'] = {}
-  for schel in schema.children:
+  elements = root['properties'] = { }
+  for schel in wsdl.schema.children:
     element_name = schel.name
     document = { 'id': '#' + element_name }
     if isinstance(schel, Complex):
@@ -80,4 +96,9 @@ def parse_xsd_schema(schema):
     else:
       raise Exception('Unsupported Schema definition: ' + schel.str())
     elements[element_name] = document
+  for msgel in wsdl.messages:
+    message_name = 'message_' + msgel[0]
+    document = { 'id': '#' + message_name }
+    parse_wsdl_message_parts(document, wsdl.messages[msgel].parts)
+    elements[message_name] = document
   return root

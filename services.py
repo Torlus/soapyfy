@@ -14,13 +14,13 @@ def add_io(operation, part):
   else:
     io['type'] = { 'type':type_name, 'js:type':'object', 'xs:type':'element' }
     # HAL will do the job
-    io['_links'] = { 'schema':{'href':'schemas/' + type_name} }
+    io['_links'] = { 'schema':{'href':'schema/#/properties/' + type_name} }
 
   operation.append(io)
 
-def parse_services(services):
+def parse_services(wsdl):
   endpoints = {}
-  for service in services:
+  for service in wsdl.services:
     srv = endpoints[service.name] = {}
     for port in service.ports:
       prt = srv[port.name] = {}
