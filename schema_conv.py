@@ -40,7 +40,7 @@ def parse_xsd_complex_type(document, element):
         q['type'] = base_type
         q['description'] = e.name + ': XSD type ' + e.type[0]
       except KeyError:
-        q['$ref'] = '#/properties/' + e.type[0]
+        q['$ref'] = '#/definitions/' + e.type[0]
     else:
       if isinstance(e.rawchildren[0], Complex):
         parse_xsd_complex_type(q, e)
@@ -72,20 +72,25 @@ def parse_wsdl_message_parts(document, parts):
   for part in parts:
     part_name = part.name
     r.append(part_name)
-    print(part)
+    # print(part)
     q = p[part_name] = {}
     try:
       base_type = xsd_to_json_type(part.type[0])
       q['type'] = base_type
       q['description'] = part_name + ': XSD type ' + part.type[0]
     except KeyError:
-      q['$ref'] = '#/properties/' + part.type[0]
+      q['$ref'] = '#/definitions/' + part.type[0]
 
   return document
 
 def parse_xsd_schema(wsdl):
   root = { 'id':'#root' }
-  elements = root['properties'] = { }
+  root['$schema'] = json_schema_version
+  root['title'] = 'messages'
+  root['description'] = 'SOAP Messages'
+  root['type'] = 'object'
+
+  elements = root['definitions'] = { }
   for schel in wsdl.schema.children:
     element_name = schel.name
     document = { 'id': '#' + element_name }
@@ -99,6 +104,13 @@ def parse_xsd_schema(wsdl):
   for msgel in wsdl.messages:
     message_name = 'message_' + msgel[0]
     document = { 'id': '#' + message_name }
+    document['$schema'] = json_schema_version
+    document['title'] = message_name
+    document['description'] = message_name
     parse_wsdl_message_parts(document, wsdl.messages[msgel].parts)
     elements[message_name] = document
+  messages = root['properties'] = { 'message': { 'type':'object', 'oneOf':[] } }
+  messages_list = messages['message']['oneOf']
+  for msgel in wsdl.messages:
+    messages_list.append( { '$ref': '#/definitions/' + 'message_' + msgel[0] } )
   return root
