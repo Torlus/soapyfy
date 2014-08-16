@@ -20,8 +20,15 @@ def render(request, element, path):
 def view_root(request):
   return render(request, root, [])
 
-def view_schema(request):
-  return render(request, schema, [])
+def view_schema(request, message):
+  try:
+    message_schema = schema[message]
+  except KeyError:
+    return NotFound()
+  return render(request, message_schema, [])
+
+def view_schema_list(request):
+  return render(request, list(schema.keys()), [])
 
 def view(request, element, path):
   return render(request, element, path)
@@ -42,8 +49,10 @@ def application(request):
     path = list(filter((lambda x: len(x) > 0), re.split('/+', request.path)))
     if len(path) == 0:
       return view_root(request)
-    elif len(path) >= 1 and path[0] == 'schema':
-      return view_schema(request)
+    elif len(path) >= 2 and path[0] == 'messages':
+      return view_messages(request, path[1])
+    elif len(path) >= 1 and path[0] == 'messages':
+      return view_messages_list(request)
     elif len(path) >= 1 and path[0] == 'services':
       return browse(request, endpoints, path, 1)
     else:

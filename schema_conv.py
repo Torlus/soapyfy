@@ -1,3 +1,4 @@
+import copy
 from suds.xsd.sxbasic import Simple, Complex, Restriction
 
 json_schema_version = 'http://json-schema.org/draft-04/schema#'
@@ -84,10 +85,10 @@ def parse_wsdl_message_parts(document, parts):
   return document
 
 def parse_xsd_schema(wsdl):
+  messages = { }
+
   root = { 'id':'#root' }
   root['$schema'] = json_schema_version
-  root['title'] = 'messages'
-  root['description'] = 'SOAP Messages'
   root['type'] = 'object'
 
   elements = root['definitions'] = { }
@@ -101,16 +102,17 @@ def parse_xsd_schema(wsdl):
     else:
       raise Exception('Unsupported Schema definition: ' + schel.str())
     elements[element_name] = document
+
   for msgel in wsdl.messages:
     message_name = 'message_' + msgel[0]
-    document = { 'id': '#' + message_name }
+
+    document = copy.copy(root)
+    document['id'] = '#' + message_name
     document['$schema'] = json_schema_version
     document['title'] = message_name
     document['description'] = message_name
+
     parse_wsdl_message_parts(document, wsdl.messages[msgel].parts)
-    elements[message_name] = document
-  messages = root['properties'] = { 'message': { 'type':'object', 'oneOf':[] } }
-  messages_list = messages['message']['oneOf']
-  for msgel in wsdl.messages:
-    messages_list.append( { '$ref': '#/definitions/' + 'message_' + msgel[0] } )
-  return root
+
+    messages[message_name] = document
+  return messages
