@@ -1,5 +1,7 @@
+Jinja2 (2.7.3)
 json-spec (0.9.8)
 jsonschema (2.3.0)
+MarkupSafe (0.23)
 pip (1.5.4)
 Pygments (1.6)
 setuptools (2.2)

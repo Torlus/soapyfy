@@ -1,0 +1,10 @@
+<!doctype html>
+<title>{% block title %}{% endblock %}</title>
+<div>
+  <h1>
+{% for pe in path %}
+    <a href="{{ pe.fullpath }}">{{ pe.entry }}</a>
+{% endfor %}
+  </h1>
+  {% block body %}{% endblock %}
+</div>
