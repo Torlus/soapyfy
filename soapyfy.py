@@ -4,6 +4,7 @@ import re
 import json
 from werkzeug.wrappers import Request, Response
 from werkzeug.exceptions import HTTPException, NotFound
+from werkzeug.wsgi import SharedDataMiddleware
 from suds.client import Client
 import schema_conv
 import services
@@ -49,7 +50,7 @@ def edit_message(request, message):
   return render_json(request, message_schema)
 
 def view_messages_list(request):
-  return render_html(request, list(schema.keys()))
+  return render_template('messages.html', ['Messages'], messages=list(schema.keys()))
 
 def view(request, element, path):
   return render_json(request, element)
@@ -103,6 +104,9 @@ if __name__ == '__main__':
     client = Client(url)
     schema = schema_conv.parse_xsd_schema(client.wsdl)
     endpoints = services.parse_services(client.wsdl)
+    application = SharedDataMiddleware(application, {
+      '/static': os.path.join(os.path.dirname(__file__), 'static')
+    })
     run_simple('localhost', 4000, application)
   else:
     print('Usage: ' + sys.argv[0] + ' <wsdl path or url>')

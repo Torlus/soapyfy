@@ -1,0 +1,24 @@
+body {
+  padding-top: 50px;
+  font-family: "FontAwesome", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: left;
+}
+.api-desc {
+  text-align: right;
+}
+.api-path {
+  text-align: left;
+}
+.api-verb {
+  text-align: left;
+}
+.api-block {
+  display: block;
+  padding: 5px 10px;
+}
+.api-endpoint {
+  margin-bottom: 10px;
+}

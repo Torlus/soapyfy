@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block title %}API Root{% endblock %}
+{% block body %}
+<h1>Messages</h1>
+{% for msg in messages %}
+<p><a href="messages/{{ msg }}">{{ msg }}</a>
+{% endfor %}
+{% endblock %}

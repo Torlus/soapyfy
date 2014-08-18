@@ -1,10 +1,41 @@
 {% extends "layout.html" %}
 {% block title %}API Root{% endblock %}
 {% block body %}
-<h1>This is the API Root</h1>
-<h2>Messages</h2>
-<ul>
-<li><a href="messages" />Messages</li>
-<li><a href="services" />Services</li>
-</ul>
+<div class="jumbotron">
+  <h1>Soapyfy</h1>
+  <h2>You are a the root of the browsable API.</h2>
+    <!--a class="btn btn-primary btn-block" href="/messages" type="button"-->
+    <!--a class="btn btn-block"-->
+  <div class="api-endpoint">
+    <a href="/messages">
+      <div class="row">
+        <div class="col-md-1 bg-primary api-block api-verb">
+          GET
+        </div>
+        <div class="col-md-5 bg-info api-block api-path">
+          /messages
+        </div>
+        <div class="col-md-6 bg-info api-block api-desc">
+          Retrieves the SOAP Messages list
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="api-endpoint">
+    <a href="/services">
+      <div class="row">
+        <div class="col-md-1 bg-primary api-block api-verb">
+          GET
+        </div>
+        <div class="col-md-5 bg-info api-block api-path">
+          /services
+        </div>
+        <div class="col-md-6 bg-info api-block api-desc">
+          Retrieves the SOAP Web Service endpoints list
+        </div>
+      </div>
+    </a>
+  </div>
+
+</div>
 {% endblock %}
