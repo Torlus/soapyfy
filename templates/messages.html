@@ -1,8 +1,24 @@
 {% extends "layout.html" %}
-{% block title %}API Root{% endblock %}
+{% block title %}Messages{% endblock %}
 {% block body %}
-<h1>Messages</h1>
+<div class="jumbotron">
+  <h2>SOAP Messages list.</h2>
+</div>
 {% for msg in messages %}
-<p><a href="messages/{{ msg }}">{{ msg }}</a>
+<div class="api-endpoint">
+  <a href="/messages/{{ msg }}">
+    <div class="row">
+      <div class="col-md-1 bg-primary api-block api-verb">
+        GET
+      </div>
+      <div class="col-md-5 bg-info api-block api-path">
+        /messages/{{ msg }}
+      </div>
+      <div class="col-md-6 bg-info api-block api-desc">
+        Schema for {{ msg }}
+      </div>
+    </div>
+  </a>
+</div>
 {% endfor %}
 {% endblock %}

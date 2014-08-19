@@ -50,7 +50,7 @@ def edit_message(request, message):
   return render_json(request, message_schema)
 
 def view_messages_list(request):
-  return render_template('messages.html', ['Messages'], messages=list(schema.keys()))
+  return render_template('messages.html', ['messages'], messages=list(schema.keys()))
 
 def view(request, element, path):
   return render_json(request, element)

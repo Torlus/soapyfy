@@ -1,41 +1,38 @@
 {% extends "layout.html" %}
-{% block title %}API Root{% endblock %}
+{% block title %}API root{% endblock %}
 {% block body %}
 <div class="jumbotron">
   <h1>Soapyfy</h1>
-  <h2>You are a the root of the browsable API.</h2>
-    <!--a class="btn btn-primary btn-block" href="/messages" type="button"-->
-    <!--a class="btn btn-block"-->
-  <div class="api-endpoint">
-    <a href="/messages">
-      <div class="row">
-        <div class="col-md-1 bg-primary api-block api-verb">
-          GET
-        </div>
-        <div class="col-md-5 bg-info api-block api-path">
-          /messages
-        </div>
-        <div class="col-md-6 bg-info api-block api-desc">
-          Retrieves the SOAP Messages list
-        </div>
+  <h2>You are at the root of the browsable API.</h2>
+</div>
+<div class="api-endpoint">
+  <a href="/messages">
+    <div class="row">
+      <div class="col-md-1 bg-primary api-block api-verb">
+        GET
       </div>
-    </a>
-  </div>
-  <div class="api-endpoint">
-    <a href="/services">
-      <div class="row">
-        <div class="col-md-1 bg-primary api-block api-verb">
-          GET
-        </div>
-        <div class="col-md-5 bg-info api-block api-path">
-          /services
-        </div>
-        <div class="col-md-6 bg-info api-block api-desc">
-          Retrieves the SOAP Web Service endpoints list
-        </div>
+      <div class="col-md-5 bg-info api-block api-path">
+        /messages
       </div>
-    </a>
-  </div>
-
+      <div class="col-md-6 bg-info api-block api-desc">
+        Retrieves the SOAP Messages list
+      </div>
+    </div>
+  </a>
+</div>
+<div class="api-endpoint">
+  <a href="/services">
+    <div class="row">
+      <div class="col-md-1 bg-primary api-block api-verb">
+        GET
+      </div>
+      <div class="col-md-5 bg-info api-block api-path">
+        /services
+      </div>
+      <div class="col-md-6 bg-info api-block api-desc">
+        Retrieves the SOAP Web Service endpoints list
+      </div>
+    </div>
+  </a>
 </div>
 {% endblock %}
