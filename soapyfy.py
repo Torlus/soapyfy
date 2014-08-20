@@ -27,7 +27,6 @@ def render_template(template_name, path, **context):
     p.append( { 'fullpath': fp, 'entry': entry} )
   p.insert(0, { 'fullpath': '/', 'entry': 'API Root' } )
   template = jinja_env.get_template(template_name)
-  print(context)
   response = Response(template.render(context))
   response.content_type = 'text/html; charset=utf-8'
   return response
@@ -47,7 +46,8 @@ def edit_message(request, message):
     message_schema = schema[message]
   except KeyError:
     return NotFound()
-  return render_json(request, message_schema)
+  json_schema = json.dumps(message_schema, sort_keys=False, indent=2)
+  return render_template('editor.html', ['messages', message, 'editor'], schema=json_schema)
 
 def view_messages_list(request):
   return render_template('messages.html', ['messages'], messages=list(schema.keys()))
