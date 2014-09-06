@@ -6,19 +6,21 @@
 </div>
 {% for msg in messages %}
 <div class="api-endpoint">
-  <a href="/messages/{{ msg }}">
-    <div class="row">
+  <div class="row">
+    <a href="/messages/{{ msg }}">
       <div class="col-md-1 bg-primary api-block api-verb">
-        GET
+        SCHEMA
       </div>
-      <div class="col-md-5 bg-info api-block api-path">
-        /messages/{{ msg }}
-      </div>
-      <div class="col-md-6 bg-info api-block api-desc">
-        Schema for {{ msg }}
-      </div>
+    </a>
+    <div class="col-md-10 bg-info api-block api-path">
+      /messages/{{ msg }}
     </div>
-  </a>
+    <a href="/messages/{{ msg }}/editor">
+      <div class="col-md-1 bg-info api-block api-verb">
+        EDITOR
+      </div>
+    </a>
+  </div>
 </div>
 {% endfor %}
 {% endblock %}
