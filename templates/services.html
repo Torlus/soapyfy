@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Services{% endblock %}
+{% block body %}
+<div class="jumbotron">
+  <h2>SOAP Services List.</h2>
+</div>
+{% for srv in services %}
+<div class="api-endpoint">
+  <div class="row">
+    <a href="/services/{{ srv }}">
+      <div class="col-md-1 bg-primary api-block api-verb">
+        BROWSE
+      </div>
+    </a>
+    <div class="col-md-11 bg-info api-block api-path">
+      /services/{{ srv }}
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

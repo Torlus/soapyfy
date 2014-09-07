@@ -47,10 +47,35 @@ def edit_message(request, message):
   except KeyError:
     return NotFound()
   json_schema = json.dumps(message_schema, sort_keys=False, indent=2)
-  return render_template('editor.html', ['messages', message, 'editor'], schema=json_schema)
+  return render_template('editor.html', ['messages', message, 'editor'],
+    schema=json_schema)
 
 def view_messages_list(request):
-  return render_template('messages.html', ['messages'], messages=list(schema.keys()))
+  return render_template('messages.html', ['messages'],
+    messages=list(schema.keys()))
+
+def view_services_list(request):
+  return render_template('services.html', ['services'],
+    services=list(endpoints.keys()))
+
+def view_ports_list(request, service):
+  try:
+    service_ports = endpoints[service]
+  except KeyError:
+    return NotFound()
+  return render_template('ports.html', ['services', service],
+    service=service, ports=list(service_ports.keys()))
+
+def view_operations_list(request, service, port):
+  try:
+    service_ports = endpoints[service]
+  except KeyError:
+    return NotFound()
+  try:
+    service_port = service_ports[port]
+  except KeyError:
+    return NotFound()
+  return render_json(request, service_port)
 
 def view(request, element, path):
   return render_json(request, element)
@@ -81,9 +106,14 @@ def application(request):
       else:
         return NotFound()
     elif len(path) >= 1 and path[0] == 'services':
-      return browse(request, endpoints, path, 1)
-    else:
-      return NotFound()
+      if len(path) == 1:
+        return view_services_list(request)
+      elif len(path) == 2:
+        return view_ports_list(request, path[1])
+      elif len(path) == 3:
+        return view_operations_list(request, path[1], path[2])
+      else:
+        return NotFound()
   elif request.method == 'POST':
     return Response('post')
   else:
