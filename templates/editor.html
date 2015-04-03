@@ -2,25 +2,73 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Basic JSON Editor Example</title>
-    <script src="/static/jsoneditor.js"></script>
-  </head>
-  <body>
-    <h1>Basic JSON Editor Example</h1>
+    <title>CSS Integration JSON Editor Example</title>
     
-    <div id='editor_holder'></div>
-    <button id='submit'>Submit (console.log)</button>
+    <!-- Foundation CSS framework (Bootstrap and jQueryUI also supported) -->
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/foundation/5.0.2/css/foundation.min.css'>
+    <!-- Font Awesome icons (Bootstrap, Foundation, and jQueryUI also supported) -->
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    
+    <script src="/static/jsoneditor.js"></script>
     
     <script>
-      // Initialize the editor with a JSON schema
+    // Set the default CSS theme and icon library globally
+    JSONEditor.defaults.theme = 'foundation5';
+    JSONEditor.defaults.iconlib = 'fontawesome4';
+    </script>
+  </head>
+  <body>
+    <div class='row'>
+      <div class='medium-12 columns'>
+        <h1>JSON Editor</h1>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='medium-12-columns'>
+        <button id='submit' class='tiny'>Submit (console.log)</button>
+        <button id='restore' class='secondary tiny'>Restore to Default</button>
+        <span id='valid_indicator' class='label'></span>
+      </div>
+    </div>
+    <div class='row'>
+      <div id='editor_holder' class='medium-12 columns'></div>
+    </div>
+    
+    <script>
+      // Initialize the editor
       var editor = new JSONEditor(document.getElementById('editor_holder'),{
-        "schema": {{ schema|safe }}
+        // Enable fetching schemas via ajax
+        ajax: true,
+        
+        // The schema for the editor
+        schema: {{ schema|safe }}
+        
       });
       
       // Hook up the submit button to log to the console
       document.getElementById('submit').addEventListener('click',function() {
         // Get the value from the editor
         console.log(editor.getValue());
+      });
+
+      // Hook up the validation indicator to update its 
+      // status whenever the editor changes
+      editor.on('change',function() {
+        // Get an array of errors from the validator
+        var errors = editor.validate();
+        
+        var indicator = document.getElementById('valid_indicator');
+        
+        // Not valid
+        if(errors.length) {
+          indicator.className = 'label alert';
+          indicator.textContent = 'not valid';
+        }
+        // Valid
+        else {
+          indicator.className = 'label success';
+          indicator.textContent = 'valid';
+        }
       });
     </script>
   </body>

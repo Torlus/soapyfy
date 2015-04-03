@@ -6,12 +6,12 @@ json_schema_version = 'http://json-schema.org/draft-04/schema#'
 
 def xsd_to_json_type(name):
     mapping = {
-        'string': 'string',
-        'int': 'integer',
-        'long': 'integer',
-        'boolean': 'boolean',
-        'dateTime': 'integer',
-        'null': None
+        'string': {'type': 'string'},
+        'int': {'type': 'integer'},
+        'long': {'type': 'integer'},
+        'boolean': {'type': 'boolean'},
+        'dateTime': {'type': 'string', 'format': 'date-time'},
+        'null': {'type': None}
     }
     return mapping[name]
 
@@ -40,7 +40,9 @@ def parse_xsd_complex_type(document, element):
         if e.type is not None:
             try:
                 base_type = xsd_to_json_type(e.type[0])
-                q['type'] = base_type
+                q['type'] = base_type['type']
+                if base_type['format'] is not None:
+                    q['format'] = base_type['format']
                 q['description'] = e.name + ': XSD type ' + e.type[0]
             except KeyError:
                 q['$ref'] = '#/definitions/' + e.type[0]
@@ -82,7 +84,9 @@ def parse_wsdl_message_parts(document, parts):
         if part.element is None:
             try:
                 base_type = xsd_to_json_type(part.type[0])
-                q['type'] = base_type
+                q['type'] = base_type['type']
+                if base_type['format'] is not None:
+                    q['format'] = base_type['format']
                 q['description'] = part_name + ': XSD type ' + part.type[0]
             except KeyError:
                 q['$ref'] = '#/definitions/' + part.type[0]
