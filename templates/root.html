@@ -2,37 +2,40 @@
 {% block title %}API root{% endblock %}
 {% block body %}
 <div class="jumbotron">
-  <h1>Soapyfy</h1>
-  <h2>You are at the root of the browsable API.</h2>
+    <h1>Soapyfy</h1>
+
+    <h2>You are at the root of the browsable API.</h2>
 </div>
 <div class="api-endpoint">
-  <div class="row">
-    <a href="/messages">
-      <div class="col-md-1 bg-primary api-block api-verb">
-        BROWSE
-      </div>
-    </a>
-    <div class="col-md-5 bg-info api-block api-path">
-      /messages
+    <div class="row">
+        <a href="/messages">
+            <div class="col-md-1 bg-primary api-block api-verb">
+                BROWSE
+            </div>
+        </a>
+
+        <div class="col-md-5 bg-info api-block api-path">
+            /messages
+        </div>
+        <div class="col-md-6 bg-info api-block api-desc">
+            Retrieves the SOAP Messages list
+        </div>
     </div>
-    <div class="col-md-6 bg-info api-block api-desc">
-      Retrieves the SOAP Messages list
-    </div>
-  </div>
 </div>
 <div class="api-endpoint">
-  <div class="row">
-    <a href="/services">
-      <div class="col-md-1 bg-primary api-block api-verb">
-        BROWSE
-      </div>
-    </a>
-    <div class="col-md-5 bg-info api-block api-path">
-      /services
+    <div class="row">
+        <a href="/services">
+            <div class="col-md-1 bg-primary api-block api-verb">
+                BROWSE
+            </div>
+        </a>
+
+        <div class="col-md-5 bg-info api-block api-path">
+            /services
+        </div>
+        <div class="col-md-6 bg-info api-block api-desc">
+            Retrieves the SOAP Web Service endpoints list
+        </div>
     </div>
-    <div class="col-md-6 bg-info api-block api-desc">
-      Retrieves the SOAP Web Service endpoints list
-    </div>
-  </div>
 </div>
 {% endblock %}

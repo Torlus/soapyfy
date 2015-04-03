@@ -2,25 +2,26 @@
 {% block title %}Messages{% endblock %}
 {% block body %}
 <div class="jumbotron">
-  <h2>SOAP Messages List.</h2>
+    <h2>SOAP Messages List.</h2>
 </div>
 {% for msg in messages %}
 <div class="api-endpoint">
-  <div class="row">
-    <a href="/messages/{{ msg }}">
-      <div class="col-md-1 bg-primary api-block api-verb">
-        SCHEMA
-      </div>
-    </a>
-    <div class="col-md-10 bg-info api-block api-path">
-      /messages/{{ msg }}
+    <div class="row">
+        <a href="/messages/{{ msg }}">
+            <div class="col-md-1 bg-primary api-block api-verb">
+                SCHEMA
+            </div>
+        </a>
+
+        <div class="col-md-10 bg-info api-block api-path">
+            /messages/{{ msg }}
+        </div>
+        <a href="/messages/{{ msg }}/editor">
+            <div class="col-md-1 bg-info api-block api-verb">
+                EDITOR
+            </div>
+        </a>
     </div>
-    <a href="/messages/{{ msg }}/editor">
-      <div class="col-md-1 bg-info api-block api-verb">
-        EDITOR
-      </div>
-    </a>
-  </div>
 </div>
 {% endfor %}
 {% endblock %}

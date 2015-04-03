@@ -2,20 +2,21 @@
 {% block title %}Ports{% endblock %}
 {% block body %}
 <div class="jumbotron">
-  <h2>SOAP Service "{{ service }}" Ports List.</h2>
+    <h2>SOAP Service "{{ service }}" Ports List.</h2>
 </div>
 {% for prt in ports %}
 <div class="api-endpoint">
-  <div class="row">
-    <a href="/services/{{ service }}/{{ prt }}">
-      <div class="col-md-1 bg-primary api-block api-verb">
-        BROWSE
-      </div>
-    </a>
-    <div class="col-md-11 bg-info api-block api-path">
-      /services/{{ service }}/{{ prt }}
+    <div class="row">
+        <a href="/services/{{ service }}/{{ prt }}">
+            <div class="col-md-1 bg-primary api-block api-verb">
+                BROWSE
+            </div>
+        </a>
+
+        <div class="col-md-11 bg-info api-block api-path">
+            /services/{{ service }}/{{ prt }}
+        </div>
     </div>
-  </div>
 </div>
 {% endfor %}
 {% endblock %}
