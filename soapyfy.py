@@ -3,7 +3,7 @@ import sys
 import re
 import json
 from werkzeug.wrappers import Request, Response
-from werkzeug.exceptions import HTTPException, NotFound
+from werkzeug.exceptions import NotFound
 from werkzeug.wsgi import SharedDataMiddleware
 from suds.client import Client
 import schema_conv
