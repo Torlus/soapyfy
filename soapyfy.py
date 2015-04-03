@@ -126,10 +126,12 @@ def application(request):
                 return view_operations_list(request, path[1], path[2])
             else:
                 return NotFound()
+        else:
+            return NotFound()
     elif request.method == 'POST':
         return Response('post')
     else:
-        response = Reponse()
+        response = Response()
         response.status_code = 400
         return response
 
